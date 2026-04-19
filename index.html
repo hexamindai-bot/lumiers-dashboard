@@ -313,9 +313,11 @@ async function loadOrders() {
     const fromDate = getFromDate(currentDateRange);
     const toDate = getToDate(currentDateRange);
 
-    let formula = `AND(LOWER({venue_text})="${VENUE}",IS_AFTER({created at},"${fromDate.toISOString()}"))`;
+    const fromStr = fromDate.toISOString().split('T')[0];
+    let formula = `AND(LOWER({venue_text})="${VENUE}",IS_AFTER({created at},"${fromStr}"))`;
     if (toDate) {
-      formula = `AND(LOWER({venue_text})="${VENUE}",IS_AFTER({created at},"${fromDate.toISOString()}"),IS_BEFORE({created at},"${toDate.toISOString()}"))`;
+      const toStr = toDate.toISOString().split('T')[0];
+      formula = `AND(LOWER({venue_text})="${VENUE}",IS_AFTER({created at},"${fromStr}"),IS_BEFORE({created at},"${toStr}"))`;
     }
 
     let records = [];
